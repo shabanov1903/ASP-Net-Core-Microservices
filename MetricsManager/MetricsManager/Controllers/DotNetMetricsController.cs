@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,28 @@ namespace MetricsManager.Controllers
 {
     [Route("api/metrics/dotnet")]
     [ApiController]
-    public class DotNetMetricsController : ControllerBase
+    public class DotNetMetricsController : BaseMetricsManagerController<DotNetMetricsController>
     {
+        public DotNetMetricsController(ILogger<DotNetMetricsController> logger) : base(logger)
+        {
+        }
+
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAgent(
+        public override IActionResult GetMetricsFromAgent(
             [FromRoute] int agentId,
             [FromRoute] TimeSpan fromTime,
             [FromRoute] TimeSpan toTime)
         {
+            base.GetMetricsFromAgent(agentId, fromTime, toTime);
             return Ok();
         }
 
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAllCluster(
+        public override IActionResult GetMetricsFromAllCluster(
             [FromRoute] TimeSpan fromTime,
             [FromRoute] TimeSpan toTime)
         {
+            base.GetMetricsFromAllCluster(fromTime, toTime);
             return Ok();
         }
     }

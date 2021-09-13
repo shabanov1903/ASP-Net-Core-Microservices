@@ -1,6 +1,11 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
+using Moq;
+using MetricsManager.DAL;
+using MetricsManager.Dto;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace MetricsManager.Tests
 {
@@ -9,56 +14,86 @@ namespace MetricsManager.Tests
         [Fact]
         public void test_CpuMetricsController()
         {
-            int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var cpuMetricsController = new MetricsAgent.Controllers.CpuMetricsController();
 
-            Assert.IsAssignableFrom<IActionResult>(cpuMetricsController.GetMetricsFromAgent(id, ts1, ts2));
+            var mock1 = new Mock<ILogger<MetricsAgent.Controllers.CpuMetricsController>>();
+            var mock2 = new Mock<ICpuMetricsRepository>();
+
+            mock2.Setup(a => a.GetByTimePeriod()).Returns(new List<CpuMetrics>()).Verifiable();
+
+            var cpuMetricsController = new MetricsAgent.Controllers.CpuMetricsController(mock1.Object, mock2.Object);
+            cpuMetricsController.GetMetricsFromAgent(ts1, ts2);
+
+            mock2.Verify(a => a.GetByTimePeriod(), Times.AtMostOnce());
         }
 
         [Fact]
         public void test_DotNetMetricsController()
         {
-            int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var dotNetMetricsController = new MetricsAgent.Controllers.DotNetMetricsController();
 
-            Assert.IsAssignableFrom<IActionResult>(dotNetMetricsController.GetMetricsFromAgent(id, ts1, ts2));
+            var mock1 = new Mock<ILogger<MetricsAgent.Controllers.DotNetMetricsController>>();
+            var mock2 = new Mock<IDotNetMetricsRepository>();
+
+            mock2.Setup(a => a.GetByTimePeriod()).Returns(new List<DotNetMetrics>());
+
+            var dotNetMetricsController = new MetricsAgent.Controllers.DotNetMetricsController(mock1.Object, mock2.Object);
+            dotNetMetricsController.GetMetricsFromAgent(ts1, ts2);
+
+            mock2.Verify(a => a.GetByTimePeriod(), Times.AtMostOnce());
         }
 
         [Fact]
         public void test_HddNetMetricsController()
         {
-            int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var hddMetricsController = new MetricsAgent.Controllers.HddMetricsController();
 
-            Assert.IsAssignableFrom<IActionResult>(hddMetricsController.GetMetricsFromAgent(id, ts1, ts2));
+            var mock1 = new Mock<ILogger<MetricsAgent.Controllers.HddMetricsController>>();
+            var mock2 = new Mock<IHddMetricsRepository>();
+
+            mock2.Setup(a => a.GetByTimePeriod()).Returns(new List<HddMetrics>());
+
+            var hddMetricsController = new MetricsAgent.Controllers.HddMetricsController(mock1.Object, mock2.Object);
+            hddMetricsController.GetMetricsFromAgent(ts1, ts2);
+
+            mock2.Verify(a => a.GetByTimePeriod(), Times.AtMostOnce());
         }
 
         [Fact]
         public void test_NetworkNetMetricsController()
         {
-            int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var networkMetricsController = new MetricsAgent.Controllers.NetworkMetricsController();
 
-            Assert.IsAssignableFrom<IActionResult>(networkMetricsController.GetMetricsFromAgent(id, ts1, ts2));
+            var mock1 = new Mock<ILogger<MetricsAgent.Controllers.NetworkMetricsController>>();
+            var mock2 = new Mock<INetworkMetricsRepository>();
+
+            mock2.Setup(a => a.GetByTimePeriod()).Returns(new List<NetworkMetrics>());
+
+            var networkMetricsController = new MetricsAgent.Controllers.NetworkMetricsController(mock1.Object, mock2.Object);
+            networkMetricsController.GetMetricsFromAgent(ts1, ts2);
+
+            mock2.Verify(a => a.GetByTimePeriod(), Times.AtMostOnce());
         }
 
         [Fact]
         public void test_RamNetMetricsController()
         {
-            int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var ramMetricsController = new MetricsAgent.Controllers.RamMetricsController();
 
-            Assert.IsAssignableFrom<IActionResult>(ramMetricsController.GetMetricsFromAgent(id, ts1, ts2));
+            var mock1 = new Mock<ILogger<MetricsAgent.Controllers.RamMetricsController>>();
+            var mock2 = new Mock<IRamMetricsRepository>();
+
+            mock2.Setup(a => a.GetByTimePeriod()).Returns(new List<RamMetrics>());
+
+            var ramMetricsController = new MetricsAgent.Controllers.RamMetricsController(mock1.Object, mock2.Object);
+            ramMetricsController.GetMetricsFromAgent(ts1, ts2);
+
+            mock2.Verify(a => a.GetByTimePeriod(), Times.AtMostOnce());
         }
     }
 }

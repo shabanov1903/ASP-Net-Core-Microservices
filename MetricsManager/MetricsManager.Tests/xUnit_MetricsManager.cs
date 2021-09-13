@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
+using Moq;
+using Microsoft.Extensions.Logging;
 
 namespace MetricsManager.Tests
 {
@@ -25,7 +27,10 @@ namespace MetricsManager.Tests
             int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var cpuMetricsController = new MetricsManager.Controllers.CpuMetricsController();
+
+            var mock = new Mock<ILogger<MetricsManager.Controllers.CpuMetricsController>>();
+
+            var cpuMetricsController = new MetricsManager.Controllers.CpuMetricsController(mock.Object);
 
             Assert.IsAssignableFrom<IActionResult>(cpuMetricsController.GetMetricsFromAgent(id, ts1, ts2));
             Assert.IsAssignableFrom<IActionResult>(cpuMetricsController.GetMetricsFromAllCluster(ts1, ts2));
@@ -37,7 +42,10 @@ namespace MetricsManager.Tests
             int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var dotNetMetricsController = new MetricsManager.Controllers.DotNetMetricsController();
+
+            var mock = new Mock<ILogger<MetricsManager.Controllers.DotNetMetricsController>>();
+
+            var dotNetMetricsController = new MetricsManager.Controllers.DotNetMetricsController(mock.Object);
 
             Assert.IsAssignableFrom<IActionResult>(dotNetMetricsController.GetMetricsFromAgent(id, ts1, ts2));
             Assert.IsAssignableFrom<IActionResult>(dotNetMetricsController.GetMetricsFromAllCluster(ts1, ts2));
@@ -49,7 +57,10 @@ namespace MetricsManager.Tests
             int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var hddMetricsController = new MetricsManager.Controllers.HddMetricsController();
+
+            var mock = new Mock<ILogger<MetricsManager.Controllers.HddMetricsController>>();
+
+            var hddMetricsController = new MetricsManager.Controllers.HddMetricsController(mock.Object);
 
             Assert.IsAssignableFrom<IActionResult>(hddMetricsController.GetMetricsFromAgent(id, ts1, ts2));
             Assert.IsAssignableFrom<IActionResult>(hddMetricsController.GetMetricsFromAllCluster(ts1, ts2));
@@ -61,7 +72,10 @@ namespace MetricsManager.Tests
             int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var networkMetricsController = new MetricsManager.Controllers.NetworkMetricsController();
+
+            var mock = new Mock<ILogger<MetricsManager.Controllers.NetworkMetricsController>>();
+
+            var networkMetricsController = new MetricsManager.Controllers.NetworkMetricsController(mock.Object);
 
             Assert.IsAssignableFrom<IActionResult>(networkMetricsController.GetMetricsFromAgent(id, ts1, ts2));
             Assert.IsAssignableFrom<IActionResult>(networkMetricsController.GetMetricsFromAllCluster(ts1, ts2));
@@ -73,7 +87,10 @@ namespace MetricsManager.Tests
             int id = 1;
             TimeSpan ts1 = new TimeSpan(15, 10, 0);
             TimeSpan ts2 = new TimeSpan(16, 20, 0);
-            var ramMetricsController = new MetricsManager.Controllers.RamMetricsController();
+
+            var mock = new Mock<ILogger<MetricsManager.Controllers.RamMetricsController>>();
+
+            var ramMetricsController = new MetricsManager.Controllers.RamMetricsController(mock.Object);
 
             Assert.IsAssignableFrom<IActionResult>(ramMetricsController.GetMetricsFromAgent(id, ts1, ts2));
             Assert.IsAssignableFrom<IActionResult>(ramMetricsController.GetMetricsFromAllCluster(ts1, ts2));

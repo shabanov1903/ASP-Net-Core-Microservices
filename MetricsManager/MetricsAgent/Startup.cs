@@ -13,8 +13,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MetricsAgent.DB;
+using MetricsAgent.Jobs;
 using MetricsAgent.DB.Entities;
 using AutoMapper;
+using Quartz;
+using Quartz.Spi;
+using Quartz.Impl;
 
 namespace MetricsAgent
 {
@@ -49,6 +53,16 @@ namespace MetricsAgent
             services.AddScoped<IDBRepository<HddMetricsEntity>, DBRepository<HddMetricsEntity>>();
             services.AddScoped<IDBRepository<NetworkMetricsEntity>, DBRepository<NetworkMetricsEntity>>();
             services.AddScoped<IDBRepository<RamMetricsEntity>, DBRepository<RamMetricsEntity>>();
+            
+            // Добавление сервисов
+            services.AddSingleton<IJobFactory, JobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            // Добавление задачи
+            services.AddSingleton<Job>();
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(Job),
+                cronExpression: "0/5 * * * * ?"));
+            services.AddHostedService<QuartzHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

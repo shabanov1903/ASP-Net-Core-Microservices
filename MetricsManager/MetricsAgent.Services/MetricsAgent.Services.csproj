@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Jobs\**" />
+    <EmbeddedResource Remove="Jobs\**" />
+    <None Remove="Jobs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
@@ -15,6 +21,7 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+    <PackageReference Include="Quartz" Version="3.3.3" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="5.0.1" />
   </ItemGroup>
 

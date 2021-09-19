@@ -20,25 +20,6 @@ namespace MetricsAgent
         {
             var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
-            var cpuTable = new DBRepository<CpuMetricsEntity>(new AppDbContext(new DbContextOptions<AppDbContext>()));
-            var dotnetTable = new DBRepository<DotNetMetricsEntity>(new AppDbContext(new DbContextOptions<AppDbContext>()));
-            var hddTable = new DBRepository<HddMetricsEntity>(new AppDbContext(new DbContextOptions<AppDbContext>()));
-            var networkTable = new DBRepository<NetworkMetricsEntity>(new AppDbContext(new DbContextOptions<AppDbContext>()));
-            var ramTable = new DBRepository<RamMetricsEntity>(new AppDbContext(new DbContextOptions<AppDbContext>()));
-
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    await cpuTable.AddAsync(new CpuMetricsEntity { Value = (float)new Random().NextDouble() * 100, Time = DateTime.Now });
-                    await dotnetTable.AddAsync(new DotNetMetricsEntity { Value = (float)new Random().NextDouble() * 100, Time = DateTime.Now });
-                    await hddTable.AddAsync(new HddMetricsEntity { Value = (float)new Random().NextDouble() * 100, Time = DateTime.Now });
-                    await networkTable.AddAsync(new NetworkMetricsEntity { Value = (float)new Random().NextDouble() * 100, Time = DateTime.Now });
-                    await ramTable.AddAsync(new RamMetricsEntity { Value = (float)new Random().NextDouble() * 100, Time = DateTime.Now });
-                    await Task.Delay(2000);
-                }
-            });
-
             try
             {
                 logger.Debug("init main");
@@ -56,8 +37,6 @@ namespace MetricsAgent
                 // Остановка логера
                 // NLog.LogAgent.Shutdown();
             }
-
-            // CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

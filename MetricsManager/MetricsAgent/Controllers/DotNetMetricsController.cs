@@ -4,28 +4,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MetricsManager.Services;
-using MetricsManager.DAL;
+using MetricsAgent.DB;
+using MetricsAgent.DB.Entities;
+using MetricsAgent.Services.DTO;
+using AutoMapper;
 
 namespace MetricsAgent.Controllers
 {
     [Route("api/metrics/dotnet")]
     [ApiController]
-    public class DotNetMetricsController : BaseMetricsAgentController<DotNetMetricsController>
+    public class DotNetMetricsController : BaseMetricsAgentController<DotNetMetricsController, DotNetMetricsEntity, DotNetMetrics>
     {
-        private IDotNetMetricsRepository _dotnetMetricsRepository;
-        public DotNetMetricsController(ILogger<DotNetMetricsController> logger, IDotNetMetricsRepository dotnetMetricsRepository) : base(logger)
+        public DotNetMetricsController(ILogger<DotNetMetricsController> logger, IDBRepository<DotNetMetricsEntity> dbrepository, IMapper mapper) : base(logger, dbrepository, mapper)
         {
-            _dotnetMetricsRepository = dotnetMetricsRepository;
         }
 
         [HttpGet("errors-count/from/{fromTime}/to/{toTime}")]
         public override IActionResult GetMetricsFromAgent(
-            [FromRoute] TimeSpan fromTime,
-            [FromRoute] TimeSpan toTime)
+            [FromRoute] DateTime fromTime,
+            [FromRoute] DateTime toTime)
         {
-            base.GetMetricsFromAgent(fromTime, toTime);
-            return Ok(_dotnetMetricsRepository.GetByTimePeriod());
+            return base.GetMetricsFromAgent(fromTime, toTime);
         }
     }
 }

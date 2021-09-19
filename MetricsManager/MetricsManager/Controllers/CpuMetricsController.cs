@@ -4,34 +4,36 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MetricsManager.DB;
+using MetricsManager.DB.Entities;
+using MetricsManager.Services.DTO;
+using AutoMapper;
 
 namespace MetricsManager.Controllers
 {
     [Route("api/metrics/cpu")]
     [ApiController]
-    public class CpuMetricsController : BaseMetricsManagerController<CpuMetricsController>
+    public class CpuMetricsController : BaseMetricsManagerController<CpuMetricsController, CpuMetricsEntity, CpuMetrics>
     {
-        public CpuMetricsController(ILogger<CpuMetricsController> logger) : base(logger)
+        public CpuMetricsController(ILogger<CpuMetricsController> logger, IDBRepository<CpuMetricsEntity> dbrepository, IMapper mapper) : base(logger, dbrepository, mapper)
         {
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
         public override IActionResult GetMetricsFromAgent(
             [FromRoute] int agentId,
-            [FromRoute] TimeSpan fromTime,
-            [FromRoute] TimeSpan toTime)
+            [FromRoute] DateTime fromTime,
+            [FromRoute] DateTime toTime)
         {
-            base.GetMetricsFromAgent(agentId, fromTime, toTime);
-            return Ok();
+            return base.GetMetricsFromAgent(agentId, fromTime, toTime);
         }
 
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public override IActionResult GetMetricsFromAllCluster(
-            [FromRoute] TimeSpan fromTime,
-            [FromRoute] TimeSpan toTime)
+            [FromRoute] DateTime fromTime,
+            [FromRoute] DateTime toTime)
         {
-            base.GetMetricsFromAllCluster(fromTime, toTime);
-            return Ok();
+            return base.GetMetricsFromAllCluster(fromTime, toTime);
         }
     }
 }

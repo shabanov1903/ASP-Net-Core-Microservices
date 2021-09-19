@@ -4,28 +4,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MetricsManager.Services;
-using MetricsManager.DAL;
+using MetricsAgent.DB;
+using MetricsAgent.DB.Entities;
+using MetricsAgent.Services.DTO;
+using AutoMapper;
 
 namespace MetricsAgent.Controllers
 {
     [Route("api/metrics/hdd")]
     [ApiController]
-    public class HddMetricsController : BaseMetricsAgentController<HddMetricsController>
+    public class HddMetricsController : BaseMetricsAgentController<HddMetricsController, HddMetricsEntity, HddMetrics>
     {
-        private IHddMetricsRepository _hddMetricsRepository;
-        public HddMetricsController(ILogger<HddMetricsController> logger, IHddMetricsRepository hddMetricsRepository) : base(logger)
+        public HddMetricsController(ILogger<HddMetricsController> logger, IDBRepository<HddMetricsEntity> dbrepository, IMapper mapper) : base(logger, dbrepository, mapper)
         {
-            _hddMetricsRepository = hddMetricsRepository;
         }
 
         [HttpGet("left/from/{fromTime}/to/{toTime}")]
         public override IActionResult GetMetricsFromAgent(
-            [FromRoute] TimeSpan fromTime,
-            [FromRoute] TimeSpan toTime)
+            [FromRoute] DateTime fromTime,
+            [FromRoute] DateTime toTime)
         {
-            base.GetMetricsFromAgent(fromTime, toTime);
-            return Ok(_hddMetricsRepository.GetByTimePeriod());
+            return base.GetMetricsFromAgent(fromTime, toTime);
         }
     }
 }

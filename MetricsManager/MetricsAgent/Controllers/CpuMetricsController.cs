@@ -4,28 +4,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MetricsManager.Services;
-using MetricsManager.DAL;
+using MetricsAgent.DB;
+using MetricsAgent.DB.Entities;
+using MetricsAgent.Services.DTO;
+using AutoMapper;
 
 namespace MetricsAgent.Controllers
 {
     [Route("api/metrics/cpu")]
     [ApiController]
-    public class CpuMetricsController : BaseMetricsAgentController<CpuMetricsController>
+    public class CpuMetricsController : BaseMetricsAgentController<CpuMetricsController, CpuMetricsEntity, CpuMetrics>
     {
-        private ICpuMetricsRepository _cpuMetricsRepository;
-        public CpuMetricsController(ILogger<CpuMetricsController> logger, ICpuMetricsRepository cpuMetricsRepository) : base(logger)
+        public CpuMetricsController(ILogger<CpuMetricsController> logger, IDBRepository<CpuMetricsEntity> dbrepository, IMapper mapper) : base(logger, dbrepository, mapper)
         {
-            _cpuMetricsRepository = cpuMetricsRepository;
         }
 
         [HttpGet("from/{fromTime}/to/{toTime}")]
         public override IActionResult GetMetricsFromAgent(
-            [FromRoute] TimeSpan fromTime,
-            [FromRoute] TimeSpan toTime)
+            [FromRoute] DateTime fromTime,
+            [FromRoute] DateTime toTime)
         {
-            base.GetMetricsFromAgent(fromTime, toTime);
-            return Ok(_cpuMetricsRepository.GetByTimePeriod());
+            return base.GetMetricsFromAgent(fromTime, toTime);
         }
     }
 }

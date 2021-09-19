@@ -7,9 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsManager", "MetricsMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsAgent", "MetricsAgent\MetricsAgent.csproj", "{A2249E7E-2163-406F-9108-21169A9211B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsManager.Tests", "MetricsManager.Tests\MetricsManager.Tests.csproj", "{7C2DC48D-B89D-48DA-91EF-EB6E75909105}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsManager.Services", "MetricsManager.Services\MetricsManager.Services.csproj", "{44630A55-88E3-4712-BFFA-17380B19F33C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetricsManager.Services", "MetricsManager.Services\MetricsManager.Services.csproj", "{44630A55-88E3-4712-BFFA-17380B19F33C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsManager.DB", "MetricsManager.DB\MetricsManager.DB.csproj", "{114A9EF3-AE52-48E4-81D1-0A770789E621}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsAgent.Services", "MetricsAgent.Services\MetricsAgent.Services.csproj", "{2336637D-8351-4AE1-8904-76B9AAC57646}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metrics.Tests", "Metrics.Tests\Metrics.Tests.csproj", "{B8731D71-C222-4F1C-B065-97E0FB3B51C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetricsAgent.DB", "MetricsAgent.DB\MetricsAgent.DB.csproj", "{498433FC-852E-48D3-ABF5-243B28ACA110}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +31,26 @@ Global
 		{A2249E7E-2163-406F-9108-21169A9211B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2249E7E-2163-406F-9108-21169A9211B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2249E7E-2163-406F-9108-21169A9211B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C2DC48D-B89D-48DA-91EF-EB6E75909105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C2DC48D-B89D-48DA-91EF-EB6E75909105}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C2DC48D-B89D-48DA-91EF-EB6E75909105}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C2DC48D-B89D-48DA-91EF-EB6E75909105}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44630A55-88E3-4712-BFFA-17380B19F33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44630A55-88E3-4712-BFFA-17380B19F33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44630A55-88E3-4712-BFFA-17380B19F33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44630A55-88E3-4712-BFFA-17380B19F33C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{114A9EF3-AE52-48E4-81D1-0A770789E621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{114A9EF3-AE52-48E4-81D1-0A770789E621}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{114A9EF3-AE52-48E4-81D1-0A770789E621}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{114A9EF3-AE52-48E4-81D1-0A770789E621}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2336637D-8351-4AE1-8904-76B9AAC57646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2336637D-8351-4AE1-8904-76B9AAC57646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2336637D-8351-4AE1-8904-76B9AAC57646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2336637D-8351-4AE1-8904-76B9AAC57646}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8731D71-C222-4F1C-B065-97E0FB3B51C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8731D71-C222-4F1C-B065-97E0FB3B51C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8731D71-C222-4F1C-B065-97E0FB3B51C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8731D71-C222-4F1C-B065-97E0FB3B51C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{498433FC-852E-48D3-ABF5-243B28ACA110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{498433FC-852E-48D3-ABF5-243B28ACA110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{498433FC-852E-48D3-ABF5-243B28ACA110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{498433FC-852E-48D3-ABF5-243B28ACA110}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

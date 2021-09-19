@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,8 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MetricsManager.Services;
-using MetricsManager.DAL;
+using MetricsAgent.DB;
+using MetricsAgent.DB.Entities;
+using AutoMapper;
 
 namespace MetricsAgent
 {
@@ -34,11 +36,19 @@ namespace MetricsAgent
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MetricsAgent", Version = "v1" });
             });
-            services.AddScoped<ICpuMetricsRepository, DB_Cpu>();
-            services.AddScoped<IDotNetMetricsRepository, DB_DotNet>();
-            services.AddScoped<IHddMetricsRepository, DB_Hdd>();
-            services.AddScoped<INetworkMetricsRepository, DB_Network>();
-            services.AddScoped<IRamMetricsRepository, DB_Ram>();
+
+            var mapperConfig = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+            var mapper = mapperConfig.CreateMapper();
+
+            services.AddSingleton(mapper);
+
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IDBRepository<CpuMetricsEntity>, DBRepository<CpuMetricsEntity>>();
+            services.AddScoped<IDBRepository<DotNetMetricsEntity>, DBRepository<DotNetMetricsEntity>>();
+            services.AddScoped<IDBRepository<HddMetricsEntity>, DBRepository<HddMetricsEntity>>();
+            services.AddScoped<IDBRepository<NetworkMetricsEntity>, DBRepository<NetworkMetricsEntity>>();
+            services.AddScoped<IDBRepository<RamMetricsEntity>, DBRepository<RamMetricsEntity>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,14 +59,6 @@ namespace MetricsAgent
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MetricsAgent v1"));
-
-                // Создание баз данных
-                var db = new DataBase();
-                db.CreateRandomDB("cpumetrics");
-                db.CreateRandomDB("dotnetmetrics");
-                db.CreateRandomDB("hddmetrics");
-                db.CreateRandomDB("networkmetrics");
-                db.CreateRandomDB("rammetrics");
             }
 
             app.UseHttpsRedirection();

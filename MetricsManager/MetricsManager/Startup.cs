@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MetricsManager.DB;
+using MetricsManager.DB.Entities;
+using AutoMapper;
 
 namespace MetricsManager
 {
@@ -32,6 +36,19 @@ namespace MetricsManager
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MetricsManager", Version = "v1" });
             });
+
+            var mapperConfig = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+            var mapper = mapperConfig.CreateMapper();
+
+            services.AddSingleton(mapper);
+
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IDBRepository<CpuMetricsEntity>, DBRepository<CpuMetricsEntity>>();
+            services.AddScoped<IDBRepository<DotNetMetricsEntity>, DBRepository<DotNetMetricsEntity>>();
+            services.AddScoped<IDBRepository<HddMetricsEntity>, DBRepository<HddMetricsEntity>>();
+            services.AddScoped<IDBRepository<NetworkMetricsEntity>, DBRepository<NetworkMetricsEntity>>();
+            services.AddScoped<IDBRepository<RamMetricsEntity>, DBRepository<RamMetricsEntity>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

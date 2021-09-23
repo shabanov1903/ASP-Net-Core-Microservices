@@ -16,11 +16,7 @@ namespace MetricsManager.DB
             Database.EnsureCreated();
         }
 
-        public DbSet<CpuMetricsEntity> EntityCpu { get; set; }
-        public DbSet<DotNetMetricsEntity> EntityDotNet { get; set; }
-        public DbSet<HddMetricsEntity> EntityHdd { get; set; }
-        public DbSet<NetworkMetricsEntity> EntityNetwork { get; set; }
-        public DbSet<RamMetricsEntity> EntityRam { get; set; }
+        public DbSet<AgentInfo> Agents { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

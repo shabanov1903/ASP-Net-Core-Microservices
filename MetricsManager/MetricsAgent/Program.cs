@@ -12,6 +12,7 @@ using MetricsAgent.DB.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
+
 namespace MetricsAgent
 {
     public class Program
@@ -43,7 +44,8 @@ namespace MetricsAgent
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                              .UseUrls("https://*:6001");
                 })
                 .ConfigureLogging(logging =>
                 {

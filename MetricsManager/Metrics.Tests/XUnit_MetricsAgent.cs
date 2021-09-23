@@ -28,7 +28,6 @@ namespace MetricsManager.Tests
 
             _dbRepository_Mock.Setup(a => a.GetAll()).Returns(new Mock<IQueryable<CpuMetricsEntity>>().Object).Verifiable();
 
-            // var cpuMetricsController = new MetricsAgent.Controllers.CpuMetricsController(_logger_Mock.Object, _dbRepository_Mock.Object, _mapper_Mock.Object);
             var cpuMetricsController = new CpuMetricsController(_logger_Mock.Object, cpuTable, _mapper_Mock.Object);
             cpuMetricsController.GetMetricsFromAgent(dt1, dt2);
 

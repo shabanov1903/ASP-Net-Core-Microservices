@@ -19,6 +19,7 @@ using AutoMapper;
 using Quartz;
 using Quartz.Spi;
 using Quartz.Impl;
+using System.Net.Http;
 
 namespace MetricsAgent
 {
@@ -63,6 +64,11 @@ namespace MetricsAgent
                 jobType: typeof(Job),
                 cronExpression: "0/5 * * * * ?"));
             services.AddHostedService<QuartzHostedService>();
+
+            // Реализация Http-client
+            services.AddTransient<IStartupFilter, HttpClientManager>();
+            //services.AddTransient<IHttpClientFactory>();
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

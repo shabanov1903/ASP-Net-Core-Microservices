@@ -7,14 +7,11 @@ using MetricsManager.DB.Entities;
 
 namespace MetricsManager.DB
 {
-    public interface IDBRepository<T> where T : BaseEntity
+    public interface IDBRepository<T>
     {
         IQueryable<T> GetAll();
         Task AddAsync(T entity);
-        
-        /*
         Task UpdateAsync(T entity);
-        Task DeleteAsync(T entity);
-        */
+        T GetElementById(int id);
     }
 }

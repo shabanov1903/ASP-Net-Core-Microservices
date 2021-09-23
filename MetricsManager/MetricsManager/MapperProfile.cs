@@ -13,20 +13,8 @@ namespace MetricsManager
     {
         public MapperProfile()
         {
-            CreateMap<CpuMetrics, CpuMetricsEntity>();
-            CreateMap<CpuMetricsEntity, CpuMetrics>();
-
-            CreateMap<DotNetMetrics, DotNetMetricsEntity>();
-            CreateMap<DotNetMetricsEntity, DotNetMetrics>();
-
-            CreateMap<HddMetrics, HddMetricsEntity>();
-            CreateMap<HddMetricsEntity, HddMetrics>();
-
-            CreateMap<NetworkMetrics, NetworkMetricsEntity>();
-            CreateMap<NetworkMetricsEntity, NetworkMetrics>();
-
-            CreateMap<RamMetrics, RamMetricsEntity>();
-            CreateMap<RamMetricsEntity, RamMetrics>();
+            CreateMap<AgentInfo, AgentInfoDTO>();
+            CreateMap<AgentInfoDTO, AgentInfo>();
         }        
     }
 }

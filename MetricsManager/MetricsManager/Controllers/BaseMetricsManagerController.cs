@@ -4,22 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MetricsManager.DB;
+using MetricsManager.Services.DTO;
 using MetricsManager.DB.Entities;
 using AutoMapper;
+using System.Net.Http;
 
 namespace MetricsManager.Controllers
 {
-    public class BaseMetricsManagerController<Tcontroller, Tentity, Tdto> : ControllerBase where Tentity : BaseEntity, new()
+    public class BaseMetricsManagerController<T> : ControllerBase
     {
-        private readonly ILogger<Tcontroller> _logger;
-        private readonly IDBRepository<Tentity> _dbrepository;
-        private readonly IMapper _mapper;
-        public BaseMetricsManagerController(ILogger<Tcontroller> logger, IDBRepository<Tentity> dbrepository, IMapper mapper)
+        private readonly ILogger<T> _logger;
+        private IQueryManager<T> _query;
+        public BaseMetricsManagerController(ILogger<T> logger, IQueryManager<T> query)
         {
-            _mapper = mapper;
-            _dbrepository = dbrepository;
             _logger = logger;
+            _query = query;
             _logger.LogDebug(1, $"Request to Controller");
         }
 
@@ -29,27 +28,19 @@ namespace MetricsManager.Controllers
             DateTime toTime)
         {
             _logger.LogInformation($"GET request to {HttpContext?.Request}");
-            var metrics = _dbrepository.GetAll().ToList().Where(x => x.Time > fromTime && x.Time < toTime);
-            var response = new List<Tdto>();
-            foreach (var metric in metrics)
-            {
-                response.Add(_mapper.Map<Tdto>(metric));
-            }
-            return Ok(response);
+            var results = _query.QueryById(agentId, fromTime, toTime);
+            return Ok(results);
         }
 
+        /*
         public virtual IActionResult GetMetricsFromAllCluster(
             DateTime fromTime,
             DateTime toTime)
         {
             _logger.LogInformation($"GET request to {HttpContext?.Request}");
-            var metrics = _dbrepository.GetAll().ToList().Where(x => x.Time > fromTime && x.Time < toTime);
-            var response = new List<Tdto>();
-            foreach (var metric in metrics)
-            {
-                response.Add(_mapper.Map<Tdto>(metric));
-            }
-            return Ok(response);
+            var response = new List<T>();
+            return Ok();
         }
+        */
     }
 }

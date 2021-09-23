@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace MetricsManager.DB.Entities
 {
-    public class RamMetricsEntity : BaseEntity
+    public class AgentInfo
     {
+        public int Id { get; set; }
+        public bool Enabled { get; set; }
+        public Uri AgentAddress { get; set; }
     }
 }

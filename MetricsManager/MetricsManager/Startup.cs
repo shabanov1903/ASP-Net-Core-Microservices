@@ -13,8 +13,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MetricsManager.DB;
+using MetricsManager.Services.DTO;
 using MetricsManager.DB.Entities;
 using AutoMapper;
+using MetricsManager.Jobs;
+using Quartz;
+using Quartz.Spi;
+using Quartz.Impl;
 
 namespace MetricsManager
 {
@@ -42,13 +47,27 @@ namespace MetricsManager
 
             services.AddSingleton(mapper);
 
-            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Singleton);
 
-            services.AddScoped<IDBRepository<CpuMetricsEntity>, DBRepository<CpuMetricsEntity>>();
-            services.AddScoped<IDBRepository<DotNetMetricsEntity>, DBRepository<DotNetMetricsEntity>>();
-            services.AddScoped<IDBRepository<HddMetricsEntity>, DBRepository<HddMetricsEntity>>();
-            services.AddScoped<IDBRepository<NetworkMetricsEntity>, DBRepository<NetworkMetricsEntity>>();
-            services.AddScoped<IDBRepository<RamMetricsEntity>, DBRepository<RamMetricsEntity>>();
+            services.AddSingleton<IDBRepository<AgentInfo>, DBRepository<AgentInfo>>();
+
+            // Реализация Http
+            services.AddSingleton<IQueryManager<CpuMetrics>, QueryManager<CpuMetrics>>();
+            services.AddSingleton<IQueryManager<DotNetMetrics>, QueryManager<DotNetMetrics>>();
+            services.AddSingleton<IQueryManager<HddMetrics>, QueryManager<HddMetrics>>();
+            services.AddSingleton<IQueryManager<NetworkMetrics>, QueryManager<NetworkMetrics>>();
+            services.AddSingleton<IQueryManager<RamMetrics>, QueryManager<RamMetrics>>();
+            services.AddHttpClient();
+
+            // Добавление сервисов
+            services.AddSingleton<IJobFactory, JobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            // Добавление задачи
+            services.AddSingleton<Job>();
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(Job),
+                cronExpression: "0/5 * * * * ?"));
+            services.AddHostedService<QuartzHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

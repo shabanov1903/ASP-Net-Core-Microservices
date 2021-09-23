@@ -7,7 +7,7 @@ using MetricsManager.DB.Entities;
 
 namespace MetricsManager.DB
 {
-    public class DBRepository<T> : IDBRepository<T> where T : BaseEntity
+    public class DBRepository<T> : IDBRepository<T> where T : AgentInfo
     {
         private readonly AppDbContext _context;
 
@@ -25,6 +25,17 @@ namespace MetricsManager.DB
         public IQueryable<T> GetAll()
         {
             return _context.Set<T>().AsQueryable();
+        }
+
+        public T GetElementById(int id)
+        {
+            return _context.Set<T>().Where(a => a.Id == id).AsQueryable().ToList()[0];
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            await Task.Run(() => _context.Set<T>().Update(entity));
+            await _context.SaveChangesAsync();
         }
     }
 }

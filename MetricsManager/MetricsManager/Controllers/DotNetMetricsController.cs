@@ -8,14 +8,15 @@ using MetricsManager.DB;
 using MetricsManager.DB.Entities;
 using MetricsManager.Services.DTO;
 using AutoMapper;
+using System.Net.Http;
 
 namespace MetricsManager.Controllers
 {
     [Route("api/metrics/dotnet")]
     [ApiController]
-    public class DotNetMetricsController : BaseMetricsManagerController<DotNetMetricsController, DotNetMetricsEntity, DotNetMetrics>
+    public class DotNetMetricsController : BaseMetricsManagerController<DotNetMetrics>
     {
-        public DotNetMetricsController(ILogger<DotNetMetricsController> logger, IDBRepository<DotNetMetricsEntity> dbrepository, IMapper mapper) : base(logger, dbrepository, mapper)
+        public DotNetMetricsController(ILogger<DotNetMetrics> logger, IQueryManager<DotNetMetrics> query) : base(logger, query)
         {
         }
 
@@ -28,6 +29,7 @@ namespace MetricsManager.Controllers
             return base.GetMetricsFromAgent(agentId, fromTime, toTime);
         }
 
+        /*
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public override IActionResult GetMetricsFromAllCluster(
             [FromRoute] DateTime fromTime,
@@ -35,5 +37,6 @@ namespace MetricsManager.Controllers
         {
             return base.GetMetricsFromAllCluster(fromTime, toTime);
         }
+        */
     }
 }

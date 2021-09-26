@@ -1,0 +1,7 @@
+https://localhost:44390/api/agents/register
+
+https://localhost:6001/api/metrics/cpu/from/{0}/to/{1}
+https://localhost:6001/api/metrics/dotnet/errors-count/from/{0}/to/{1}
+https://localhost:6001/api/metrics/hdd/left/from/{0}/to/{1}
+https://localhost:6001/api/metrics/network/from/{0}/to/{1}
+https://localhost:6001/api/metrics/ram/available/from/{0}/to/{1}

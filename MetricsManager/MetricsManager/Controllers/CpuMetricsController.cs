@@ -20,6 +20,17 @@ namespace MetricsManager.Controllers
         {
         }
 
+        /// <summary>
+        /// Получает метрики Cpu на заданном диапазоне времени по ID
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        /// GET https://localhost:44390/api/metrics/cpu/agent/1/from/{DateTime}/to/{DateTime}
+        /// </remarks>
+        /// <param name="agentId">ID агента</param>
+        /// <param name="fromTime">Начальная метка времени</param>
+        /// <param name="toTime">Конечная метка времени</param>
+        /// <returns>Список метрик, которые были сохранены в заданном диапазоне</returns>
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
         public override IActionResult GetMetricsFromAgent(
             [FromRoute] int agentId,

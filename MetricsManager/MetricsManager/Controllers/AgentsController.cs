@@ -25,6 +25,11 @@ namespace MetricsManager.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Функция регистрации нового агента
+        /// </summary>
+        /// <param name="agentInfo">Ссылка на агента</param>
+        /// <returns></returns>
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAgent([FromBody] AgentInfo agentInfo)
         {
@@ -32,6 +37,11 @@ namespace MetricsManager.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Включение агента и запись информации в базу данных
+        /// </summary>
+        /// <param name="agentId">Id агента</param>
+        /// <returns></returns>
         [HttpPut("enable/{agentId}")]
         public async Task<IActionResult> EnableAgentById([FromRoute] int agentId)
         {
@@ -46,6 +56,11 @@ namespace MetricsManager.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Отключение агента и запись информации в базу данных
+        /// </summary>
+        /// <param name="agentId">Id агента</param>
+        /// <returns></returns>
         [HttpPut("disable/{agentId}")]
         public async Task<IActionResult> DisableAgentById([FromRoute] int agentId)
         {
@@ -60,6 +75,10 @@ namespace MetricsManager.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Возвращает список доступных агентов из базы данных
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("services")]
         public IActionResult GetRegisterServices()
         {

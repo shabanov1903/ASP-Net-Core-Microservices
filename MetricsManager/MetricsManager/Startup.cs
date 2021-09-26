@@ -20,6 +20,8 @@ using MetricsManager.Jobs;
 using Quartz;
 using Quartz.Spi;
 using Quartz.Impl;
+using System.Reflection;
+using System.IO;
 
 namespace MetricsManager
 {
@@ -39,7 +41,27 @@ namespace MetricsManager
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MetricsManager", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "API сервиса сбора метрик",
+                    Description = "Проверка API сервиса",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Shabanov Danil",
+                        Email = "shabanov1903@gmail.com"
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Свободная лицензия",
+                        Url = new Uri("https://example.com/license")
+                    }
+                });
+                // Указываем файл из которого брать комментарии для Swagger UI
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             var mapperConfig = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
@@ -77,7 +99,7 @@ namespace MetricsManager
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MetricsManager v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API сервиса сбора метрик"));
             }
 
             app.UseHttpsRedirection();

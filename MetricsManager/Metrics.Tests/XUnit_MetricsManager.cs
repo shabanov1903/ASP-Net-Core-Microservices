@@ -11,6 +11,7 @@ using MetricsManager.DB.Entities;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace MetricsManager.Tests
 {
@@ -25,13 +26,6 @@ namespace MetricsManager.Tests
             var _mapper_Repo = new Mock<IDBRepository<AgentInfo>>();
             var _mapper_Mock = new Mock<IMapper>();
             var agentController = new AgentsController(_mapper_Repo.Object, _mapper_Mock.Object);
-
-            /*
-            Assert.IsAssignableFrom<IActionResult>(agentController.RegisterAgent(agentInfo));
-            Assert.IsAssignableFrom<IActionResult>(agentController.EnableAgentById(id));
-            Assert.IsAssignableFrom<IActionResult>(agentController.DisableAgentById(id));
-            Assert.IsAssignableFrom<IActionResult>(agentController.GetRegisterServices());
-            */
 
             await agentController.RegisterAgent(agentInfo);
             await agentController.EnableAgentById(id);
@@ -50,6 +44,14 @@ namespace MetricsManager.Tests
 
             var cpuMetricsController = new CpuMetricsController(_logger_Mock.Object, _query_Mock.Object);
             cpuMetricsController.GetMetricsFromAgent(id, dt1, dt2);
+        }
+
+        [Fact]
+        public void Test_DbRepository()
+        {
+            var _dbContext_Mock = new Mock<IDBRepository<AgentInfo>>();
+            Assert.IsAssignableFrom<IQueryable<AgentInfo>>(_dbContext_Mock.Object.GetAll());
+            _dbContext_Mock.Verify(a => a.GetAll(), Times.Once);
         }
     }
 }

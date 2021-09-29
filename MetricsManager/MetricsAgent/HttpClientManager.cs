@@ -44,7 +44,7 @@ namespace MetricsAgent
 
         public async Task GetResponseEnableAgent(int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:44390/api/agents/enable/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:5001/api/agents/enable/{id}");
             var client = _clientfactory.CreateClient();
             await client.SendAsync(request);
         }

@@ -1,0 +1,24 @@
+﻿<Window x:Class="WpfClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <ListBox Margin="318,40,40,134" Name="MetricsList"/>
+        <Button Content="GET Metrics" HorizontalAlignment="Left" Margin="22,272,0,0" VerticalAlignment="Top" Height="28" Width="100" Click="GetMetrics"/>
+        <TextBox HorizontalAlignment="Left" Margin="22,87,0,0" Text="YYYY-MM-DD HH:MM:SS.Ms" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Name="DateTimeBoxFrom"/>
+        <TextBox HorizontalAlignment="Left" Margin="22,161,0,0" Text="YYYY-MM-DD HH:MM:SS.Ms" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Name="DateTimeBoxTo"/>
+        <TextBlock HorizontalAlignment="Left" Margin="22,66,0,0" Text="Начальное время:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="22,140,0,0" Text="Конечное время:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="22,217,0,0" VerticalAlignment="Top" Width="120" Name="MetricsComboBox">
+            <ComboBoxItem>Cpu Metrics</ComboBoxItem>
+            <ComboBoxItem>DotNet Metrics</ComboBoxItem>
+            <ComboBoxItem>Hdd Metrics</ComboBoxItem>
+            <ComboBoxItem>Network Metrics</ComboBoxItem>
+            <ComboBoxItem>Ram Metrics</ComboBoxItem>
+        </ComboBox>
+    </Grid>
+</Window>
